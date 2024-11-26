@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 
 /**
  * This class implements a view that can write on any PrintStream.
@@ -21,7 +22,7 @@ public final class PrintStreamView implements DrawNumberView {
      * @param stream the {@link PrintStream} where to write
      */
     public PrintStreamView(final PrintStream stream) {
-        out = stream;
+        this.out = new PrintStream(stream, true, StandardCharsets.UTF_8);
     }
 
     /**
@@ -31,7 +32,7 @@ public final class PrintStreamView implements DrawNumberView {
      * @throws FileNotFoundException 
      */
     public PrintStreamView(final String path) throws FileNotFoundException {
-        out = new PrintStream(new FileOutputStream(new File(path)));
+        out = new PrintStream(new FileOutputStream(new File(path)), true, StandardCharsets.UTF_8);
     }
 
     @Override
@@ -56,6 +57,12 @@ public final class PrintStreamView implements DrawNumberView {
     @Override
     public void result(final DrawResult res) {
         out.println(res.getDescription());
+    }
+
+    @Override
+    public void displayError(final String message) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'displayError'");
     }
 
 }
